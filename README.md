@@ -4,6 +4,8 @@
 
 Built for the [DEV x MLH Built with Google Gemini Writing Challenge](https://dev.to/challenges/mlh-built-with-google-gemini-02-25-26) 🏆
 
+![VibeMeter Demo](https://raw.githubusercontent.com/dinesh0666/vibemeter/main/assets/demo.gif)
+
 ---
 
 ## ✨ Features
