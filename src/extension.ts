@@ -3,7 +3,7 @@ import { VibeEngine } from "./vibeEngine";
 import { HypeMachine } from "./hypeMachine";
 import { VibeStatusBar } from "./statusBar";
 import { VibeDashboard } from "./dashboard";
-import { initAI } from "./ai";
+import { initAI, onConfigChange } from "./ai";
 import { runVibeCoach } from "./vibeCoach";
 
 let engine:    VibeEngine    | undefined;
@@ -11,15 +11,18 @@ let hype:      HypeMachine   | undefined;
 let statusBar: VibeStatusBar | undefined;
 const sessionStart = new Date();
 
-export function activate(context: vscode.ExtensionContext) {
+export async function activate(context: vscode.ExtensionContext) {
     console.log("VibeMeter: Vibe coding mode activated 🔥");
 
     // ── Core setup ──────────────────────────────────────────────────────────
-    initAI(context.extensionPath);
+    await initAI(context.extensionPath);
 
     engine    = new VibeEngine();
     hype      = new HypeMachine();
     statusBar = new VibeStatusBar();
+
+    // Re-init Gemini if user updates the API key in settings
+    const configWatcher = vscode.workspace.onDidChangeConfiguration(onConfigChange);
 
     // Wire VibeEngine → StatusBar + HypeMachine on every update
     const stateListener = engine.onStateChange(state => {
@@ -53,6 +56,7 @@ export function activate(context: vscode.ExtensionContext) {
 
     // ── Register & subscribe ─────────────────────────────────────────────────
     context.subscriptions.push(
+        configWatcher,
         stateListener,
         dashboardCmd,
         coachCmd,

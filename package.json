@@ -28,6 +28,17 @@
         "title": "VibeMeter: Quick Vibe Check"
       }
     ],
+    "configuration": {
+      "title": "VibeMeter",
+      "properties": {
+        "vibemeter.geminiApiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Your [Google Gemini API key](https://aistudio.google.com/apikey). Used to power the AI Vibe Coach.",
+          "order": 1
+        }
+      }
+    },
     "keybindings": [
       {
         "command": "vibemeter.dashboard",

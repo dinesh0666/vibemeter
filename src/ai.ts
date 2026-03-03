@@ -1,36 +1,55 @@
 import * as vscode from "vscode";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import * as fs from "fs";
-import * as path from "path";
 
 let genAI: GoogleGenerativeAI | null = null;
 
 /**
- * Initialize the AI backend.
- * Google Gemini (gemini-2.0-flash) is the primary engine powering VibeMeter.
- * VS Code Language Model API is the optional fallback.
+ * Get the Gemini API key from VS Code settings.
  */
-export function initAI(extensionPath: string): void {
-    const envPath = path.join(extensionPath, ".env");
-    let apiKey = process.env.GEMINI_API_KEY || "";
+function getApiKey(): string {
+    return vscode.workspace.getConfiguration("vibemeter").get<string>("geminiApiKey", "").trim();
+}
 
-    try {
-        if (fs.existsSync(envPath)) {
-            const envContent = fs.readFileSync(envPath, "utf-8");
-            const match = envContent.match(/GEMINI_API_KEY=(.+)/);
-            if (match) {
-                apiKey = match[1].trim();
-            }
-        }
-    } catch (err) {
-        console.error("VibeMeter: Failed to read .env:", err);
-    }
+/**
+ * Initialize the AI backend from VS Code settings.
+ * Prompts the user to enter their key if not configured.
+ */
+export async function initAI(_extensionPath: string): Promise<void> {
+    const apiKey = getApiKey();
 
     if (apiKey) {
         genAI = new GoogleGenerativeAI(apiKey);
         console.log("VibeMeter: Gemini API initialized ✅");
     } else {
-        console.warn("VibeMeter: No GEMINI_API_KEY found — will try VS Code LM fallback");
+        console.warn("VibeMeter: No Gemini API key in settings — prompting user");
+        const entered = await vscode.window.showInputBox({
+            prompt: "Enter your Google Gemini API key to enable the AI Vibe Coach",
+            placeHolder: "AIza...",
+            password: true,
+            ignoreFocusOut: true,
+        });
+        if (entered && entered.trim()) {
+            await vscode.workspace.getConfiguration("vibemeter").update(
+                "geminiApiKey",
+                entered.trim(),
+                vscode.ConfigurationTarget.Global
+            );
+            genAI = new GoogleGenerativeAI(entered.trim());
+            vscode.window.showInformationMessage("VibeMeter: Gemini API key saved ✅");
+        } else {
+            vscode.window.showWarningMessage("VibeMeter: No API key — AI Coach will use Copilot fallback.");
+        }
+    }
+}
+
+/**
+ * Re-initialise if the setting changes while VS Code is open.
+ */
+export function onConfigChange(e: vscode.ConfigurationChangeEvent): void {
+    if (e.affectsConfiguration("vibemeter.geminiApiKey")) {
+        const apiKey = getApiKey();
+        genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
+        console.log(apiKey ? "VibeMeter: Gemini key updated ✅" : "VibeMeter: Gemini key cleared");
     }
 }
 
@@ -64,7 +83,7 @@ export async function askAI(prompt: string): Promise<string> {
         console.warn("VibeMeter: VS Code LM fallback also failed:", err);
     }
 
-    return "🤷 All AI backends are unavailable. Check your Gemini API key in .env";
+    return "🤷 All AI backends are unavailable. Add your Gemini API key in Settings → VibeMeter."; 
 }
 
 /**
