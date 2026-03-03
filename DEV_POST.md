@@ -20,6 +20,8 @@ Here's what it does:
 
 The status bar reacts immediately — reach GOD MODE and it cycles through `⚡ GOD MODE 💀 GOD MODE 🔥 GOD MODE` at 450ms intervals. It's dramatic. That's the point.
 
+![VibeMeter Demo](https://raw.githubusercontent.com/dinesh0666/vibemeter/main/assets/demo.gif)
+
 ---
 
 ### The Core Idea: Measure Flow, Not Just Output
@@ -168,4 +170,4 @@ The one capability I wish existed: a lightweight classification endpoint that co
 
 **The real irony**: I spent a session deep in GOD MODE building the system that detects GOD MODE. The tool validated itself. 🔥
 
-[GitHub Repo](https://github.com/YOUR_USERNAME/vibemeter) | Built with Google Gemini 2.0 Flash ✨
+[GitHub Repo](https://github.com/dinesh0666/vibemeter) | Built with Google Gemini 2.0 Flash ✨
