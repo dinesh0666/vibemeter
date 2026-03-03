@@ -166,6 +166,17 @@ The one capability I wish existed: a lightweight classification endpoint that co
 - **Custom hype messages** — let devs write their own achievement toasts
 - **Publish to the VS Code Marketplace**
 
+### Try It Now — Sideload the VSIX
+
+A pre-built VSIX is included in the repo so you can try it without cloning or compiling:
+
+1. [Download **vibemeter.vsix**](https://github.com/dinesh0666/vibemeter/raw/main/vibemeter.vsix)
+2. In VS Code: `⌘⇧P` → **Extensions: Install from VSIX…** → pick the file
+3. Add your [Gemini API key](https://aistudio.google.com/apikey) in **Settings → VibeMeter → Gemini Api Key**
+4. Start coding — the vibe score appears in your status bar immediately
+
+Or via the terminal: `code --install-extension vibemeter.vsix`
+
 ---
 
 **The real irony**: I spent a session deep in GOD MODE building the system that detects GOD MODE. The tool validated itself. 🔥

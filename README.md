@@ -50,6 +50,24 @@ Then press **F5** in VS Code to launch the Extension Development Host.
 
 ---
 
+## 📦 Install via VSIX (Sideload)
+
+No Marketplace account needed — install the pre-built extension directly:
+
+1. [Download **vibemeter.vsix**](https://github.com/dinesh0666/vibemeter/raw/main/vibemeter.vsix) from the repo
+2. Open VS Code and press `⌘⇧P` (Mac) / `Ctrl+Shift+P` (Windows)
+3. Run **Extensions: Install from VSIX…**
+4. Pick the downloaded `vibemeter.vsix`
+5. Reload VS Code when prompted
+6. Open **Settings → VibeMeter → Gemini Api Key** and paste your [Google Gemini API key](https://aistudio.google.com/apikey)
+
+> Or install directly from the terminal:
+> ```bash
+> code --install-extension vibemeter.vsix
+> ```
+
+---
+
 ## ⌨️ Commands & Shortcuts
 
 | Command | Shortcut (Mac) | Description |
