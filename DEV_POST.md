@@ -1,5 +1,5 @@
 ---
-title: I Built a VS Code Extension That Tracks Your Flow State in Real-Time (and Hypes You Up)
+title: This VS Code Extension Gives Your Coding Session a Vibe Score (and Loses Its Mind at GOD MODE)
 published: false
 tags: devchallenge, geminireflections, gemini
 ---
